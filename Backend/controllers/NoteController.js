@@ -1,7 +1,7 @@
 import Note from "../models/NoteModel.js";
 
 // GET
-async function getNotes(req, res) {
+  async function getNotes(req, res) {
     try {
       const response = await Note.findAll();
       res.status(200).json(response);
@@ -9,6 +9,19 @@ async function getNotes(req, res) {
       console.log(error.message);
     }
   }
+
+  export const getNotesById = async (req, res) => {
+    try {
+        const note = await Note.findOne({ where: { id: req.params.id } });
+        if (!note) {
+            return res.status(404).json({ msg: "Note not found" });
+        }
+        res.status(200).json(note);
+    } catch (error) {
+        console.log(error.message);
+    }
+  };
+
   
   // CREATE
   async function createNotes(req, res) {
